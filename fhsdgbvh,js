@@ -1,0 +1,110 @@
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+http.createServer((req, res) => {
+  if (req.url === '/paisesb') {
+    const filePath = path.join(__dirname, 'paisesb.json');
+    const readStream = fs.createReadStream(filePath);
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+
+    // Lê o arquivo paises.json e converte para objeto JavaScript
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.end(JSON.stringify({ error: 'Falha ao ler o arquivo de países.' }));
+        return;
+      }
+
+      // Converte o conteúdo do arquivo para objeto JSON
+      const countries = JSON.parse(data);
+
+      // Seleciona os primeiros 20 países
+      const first20Countries = countries.slice(0, 20);
+
+      // Envia a resposta com os 20 países em formato JSON
+      res.end(JSON.stringify(first20Countries));
+    });
+  } 
+  
+  if (req.url === '/paisesb') {
+    const filePath = path.join(__dirname, 'paises.json');
+    const readStream = fs.createReadStream(filePath);
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+
+    // Lê o arquivo paises.json e converte para objeto JavaScript
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.end(JSON.stringify({ error: 'Falha ao ler o arquivo de países.' }));
+        return;
+      }
+
+      // Converte o conteúdo do arquivo para objeto JSON
+      const countries = JSON.parse(data);
+
+      //foreach
+      
+
+      // Envia a resposta com os 20 países em formato JSON
+      res.end(JSON.stringify(first20Countries));
+    });
+  }
+  
+  
+  
+  else {
+    const filePath = path.join(__dirname, 'index.html');
+    const readStream = fs.createReadStream(filePath);
+
+    res.writeHead(200, {
+      'Content-Type': 'text/html',
+      'Access-Control-Allow-Origin': '*'
+    });
+
+    readStream.pipe(res);
+  }
+}).listen(8000);
+
+console.log('Visite-me em: http://localhost:8000');
+
+
+
+
+const http = require('http')
+const fs = require('fs')
+const path = require('path')
+
+http.createServer((req, res) => {
+  if (req.url === '/paises') {
+    const filePath = path.join(__dirname, 'paises.json')
+    const readStream = fs.createReadStream(filePath)
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin' : '*'
+    })
+
+    readStream.pipe(res)
+  } else {
+    const filePath = path.join(__dirname, 'index.html')
+    const readStream = fs.createReadStream(filePath)
+
+    res.writeHead(200, {
+      'Content-Type': 'text/html',
+      'Access-Control-Allow-Origin' : '*'
+    })
+
+    readStream.pipe(res)
+  }
+}).listen(8000)
+
+console.log('Visite-me em: http://localhost:8000')
